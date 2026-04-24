@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  html {
+    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    background-color: #FAFAFA;
+    /* Safe area insets for iPhone notch/home bar */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  body {
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .card-base {
+    @apply bg-gradient-to-br from-white to-bloom-50 rounded-3xl shadow-card;
+  }
+
+  .btn-primary {
+    @apply bg-button-gradient text-white font-medium rounded-full px-6 py-3 shadow-bloom
+           active:scale-95 transition-transform duration-150;
+  }
+
+  .btn-ghost {
+    @apply bg-bloom-50 text-bloom-600 font-medium rounded-full px-6 py-3
+           active:scale-95 transition-transform duration-150;
+  }
+
+  .input-base {
+    @apply w-full bg-bloom-50 border-0 rounded-2xl px-4 py-3
+           text-gray-800 placeholder-gray-400 outline-none
+           focus:ring-2 focus:ring-bloom-300 transition-all duration-200;
+  }
+
+  .tab-bar {
+    @apply fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl
+           border-t border-bloom-100 flex items-center justify-around
+           pb-safe;
+    padding-bottom: max(env(safe-area-inset-bottom), 12px);
+  }
+
+  .progress-ring {
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar but keep scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

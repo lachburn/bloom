@@ -1,0 +1,69 @@
+import { useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+export default function BottomSheet({ open, onClose, title, children, tall = false }) {
+  const overlayRef = useRef(null)
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            ref={overlayRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+          />
+
+          {/* Sheet */}
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 32, stiffness: 400 }}
+            className={`fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2rem] shadow-bloom-lg
+              ${tall ? 'max-h-[92vh]' : 'max-h-[80vh]'} overflow-hidden flex flex-col`}
+            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+          >
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
+              <div className="w-10 h-1 bg-gray-200 rounded-full" />
+            </div>
+
+            {/* Header */}
+            {title && (
+              <div className="flex items-center justify-between px-6 pb-4 flex-shrink-0">
+                <h2 className="font-display text-xl font-semibold text-gray-800">{title}</h2>
+                <button
+                  onClick={onClose}
+                  className="w-8 h-8 rounded-full bg-bloom-50 flex items-center justify-center text-gray-400"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="overflow-y-auto flex-1 px-6 pb-6">
+              {children}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
