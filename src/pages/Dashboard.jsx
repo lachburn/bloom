@@ -73,8 +73,8 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Habits grid */}
-      <div className="px-5 pb-32">
+      {/* Habits grid — pb large enough to clear nav bar + FAB */}
+      <div className="px-5 pb-40">
         {habitsLoading ? (
           <div className="grid grid-cols-2 gap-4">
             {[1,2,3,4].map(i => <SkeletonCard key={i} />)}
@@ -119,14 +119,17 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* FAB */}
+      {/* FAB — positioned above the nav bar, accounting for safe area */}
       <motion.button
         whileTap={{ scale: 0.92 }}
         whileHover={{ scale: 1.05 }}
         onClick={() => setAddOpen(true)}
-        className="fixed bottom-24 right-5 w-14 h-14 bg-button-gradient rounded-full shadow-bloom-lg
-          flex items-center justify-center text-white text-2xl z-30"
-        style={{ boxShadow: '0 8px 32px rgba(232, 74, 133, 0.4)' }}
+        className="fixed right-5 w-14 h-14 bg-button-gradient rounded-full shadow-bloom-lg
+          flex items-center justify-center text-white z-40"
+        style={{
+          bottom: 'calc(env(safe-area-inset-bottom) + 80px)',
+          boxShadow: '0 8px 32px rgba(232, 74, 133, 0.4)',
+        }}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
