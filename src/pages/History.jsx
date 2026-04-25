@@ -72,8 +72,8 @@ function SevenDayView({ habits, logs }) {
 
   return (
     <div className="space-y-3 pb-32">
-      {/* Day headers */}
-      <div className="grid pb-2" style={{ gridTemplateColumns: `120px repeat(7, 1fr)` }}>
+      {/* Day headers — match the data row column widths */}
+      <div className="grid pb-2" style={{ gridTemplateColumns: `112px repeat(7, 1fr)` }}>
         <div />
         {days.map(day => (
           <div key={day.toISOString()} className="text-center">
@@ -91,8 +91,8 @@ function SevenDayView({ habits, logs }) {
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.05 }}
-          className="grid items-center gap-1 bg-white rounded-2xl px-3 py-3 shadow-bloom-sm"
-          style={{ gridTemplateColumns: `120px repeat(7, 1fr)` }}
+          className="grid items-center gap-1 bg-white rounded-2xl px-3 py-3 shadow-bloom-sm overflow-visible"
+          style={{ gridTemplateColumns: `112px repeat(7, 1fr)` }}
         >
           <div className="flex items-center gap-1.5 overflow-hidden">
             <span className="text-base">{habit.emoji}</span>
@@ -104,12 +104,12 @@ function SevenDayView({ habits, logs }) {
             const done = log?.completed
             return (
               <div key={dateStr} className="flex justify-center">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px]
                   ${done
                     ? 'bg-bloom-gradient text-bloom-600 shadow-bloom-sm'
                     : isSameDay(parseISO(dateStr), new Date())
-                      ? 'border-2 border-dashed border-bloom-200'
-                      : 'bg-gray-50'
+                      ? 'border-2 border-dashed border-bloom-300'
+                      : 'bg-gray-100'
                   }`}>
                   {done ? '✓' : ''}
                 </div>
@@ -262,6 +262,14 @@ function PerHabitView({ habits, logs, selected, onSelect }) {
             <p className="text-xs text-gray-400 mt-1">This month</p>
           </div>
         </div>
+
+        {/* Notes */}
+        {habit?.config?.notes && (
+          <div className="mt-4 bg-white rounded-2xl p-4 shadow-bloom-sm">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">📝 Notes</p>
+            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{habit.config.notes}</p>
+          </div>
+        )}
       </div>
     )
   }

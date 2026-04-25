@@ -215,7 +215,7 @@ export default function HabitTile({ habit, onEdit, onDelete }) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onTouchMove={onTouchEnd}
-        className={`relative rounded-3xl p-4 shadow-card overflow-hidden transition-all duration-500 ${
+        className={`relative rounded-3xl p-4 shadow-card overflow-hidden transition-all duration-500 flex flex-col h-full ${
           done
             ? 'bg-card-done shadow-bloom'
             : 'bg-card-gradient'
@@ -277,11 +277,13 @@ export default function HabitTile({ habit, onEdit, onDelete }) {
           {streak > 0 ? `${streak} day streak` : 'Start your streak today'}
         </p>
 
-        {/* Habit-specific UI */}
-        {tileContent()}
+        {/* Habit-specific UI — mt-auto pins it to the bottom so all tiles match height */}
+        <div className="mt-auto">
+          {tileContent()}
+        </div>
       </motion.div>
 
-      {/* Context menu */}
+      {/* Context menu — flex wrapper centres the panel without CSS-transform conflicts */}
       <AnimatePresence>
         {menuOpen && (
           <>
@@ -290,41 +292,42 @@ export default function HabitTile({ habit, onEdit, onDelete }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 z-40 bg-black/10"
+              className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm"
             />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 8 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50
-                bg-white rounded-3xl shadow-bloom-lg overflow-hidden w-64"
-            >
-              <div className="p-4 border-b border-bloom-50">
-                <p className="text-center font-medium text-gray-700">{habit.emoji} {habit.name}</p>
-              </div>
-              {[
-                { label: 'Edit habit', icon: '✏️', action: () => { onEdit(habit); setMenuOpen(false) } },
-                { label: 'Archive', icon: '📦', action: () => { onEdit({ ...habit, archived: true }); setMenuOpen(false) } },
-                { label: 'Delete', icon: '🗑️', danger: true, action: () => { onDelete(habit); setMenuOpen(false) } },
-              ].map(item => (
-                <button
-                  key={item.label}
-                  onClick={item.action}
-                  className={`w-full flex items-center gap-3 px-5 py-4 text-sm font-medium transition-colors
-                    ${item.danger ? 'text-rose-400 hover:bg-rose-50' : 'text-gray-700 hover:bg-bloom-50'}`}
-                >
-                  <span>{item.icon}</span>
-                  {item.label}
-                </button>
-              ))}
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="w-full py-4 text-sm text-gray-400 border-t border-bloom-50"
+            <div className="fixed inset-0 z-[70] flex items-center justify-center px-8 pointer-events-none">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                className="bg-white rounded-3xl shadow-bloom-lg overflow-hidden w-full max-w-xs pointer-events-auto"
               >
-                Cancel
-              </button>
-            </motion.div>
+                <div className="p-4 border-b border-bloom-50">
+                  <p className="text-center font-medium text-gray-700">{habit.emoji} {habit.name}</p>
+                </div>
+                {[
+                  { label: 'Edit habit', icon: '✏️', action: () => { onEdit(habit); setMenuOpen(false) } },
+                  { label: 'Archive',    icon: '📦', action: () => { onEdit({ ...habit, archived: true }); setMenuOpen(false) } },
+                  { label: 'Delete',     icon: '🗑️', danger: true, action: () => { onDelete(habit); setMenuOpen(false) } },
+                ].map(item => (
+                  <button
+                    key={item.label}
+                    onClick={item.action}
+                    className={`w-full flex items-center gap-3 px-5 py-4 text-sm font-medium transition-colors
+                      ${item.danger ? 'text-rose-400 active:bg-rose-50' : 'text-gray-700 active:bg-bloom-50'}`}
+                  >
+                    <span>{item.icon}</span>
+                    {item.label}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full py-4 text-sm text-gray-400 border-t border-bloom-50"
+                >
+                  Cancel
+                </button>
+              </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

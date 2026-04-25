@@ -189,6 +189,20 @@ export default function HabitForm({ habit, onClose, onSavingChange }) {
         )}
       </AnimatePresence>
 
+      {/* Notes */}
+      <div>
+        <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5 block">
+          Notes <span className="normal-case text-gray-400 font-normal">(optional)</span>
+        </label>
+        <textarea
+          value={config.notes || ''}
+          onChange={e => setConfigField('notes', e.target.value)}
+          placeholder="Reminders, tips, or anything you want to remember about this habit…"
+          rows={3}
+          className="input-base resize-none leading-relaxed"
+        />
+      </div>
+
       {/* Inline save error (stays inside scrollable area) */}
       <AnimatePresence>
         {saveError && (

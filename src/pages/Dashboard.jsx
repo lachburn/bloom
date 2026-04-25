@@ -43,9 +43,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-bloom-50 via-white to-white">
 
-      {/* Sticky header — owns the safe-area-top padding so it fills the status bar */}
+      {/* Sticky header — fully opaque so no bleed from scrolling content */}
       <div
-        className="sticky top-0 z-20 px-5 pb-4 bg-gradient-to-b from-bloom-100 to-bloom-50/80 backdrop-blur-md"
+        className="sticky top-0 z-20 px-5 pb-4 bg-gradient-to-b from-bloom-100 to-bloom-50 border-b border-bloom-200"
         style={{ paddingTop: 'max(env(safe-area-inset-top), 16px)' }}
       >
         {/* Greeting */}
@@ -195,14 +195,16 @@ export default function Dashboard() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setDeleteTarget(null)}
-              className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm"
             />
+            {/* Flex wrapper for centering — avoids CSS-transform + Framer-transform conflict */}
+            <div className="fixed inset-0 z-[70] flex items-center justify-center px-8 pointer-events-none">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50
-                bg-white rounded-3xl p-6 shadow-bloom-lg w-72 text-center"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              className="bg-white rounded-3xl p-6 shadow-bloom-lg w-full max-w-xs text-center pointer-events-auto"
             >
               <div className="text-4xl mb-3">{deleteTarget.emoji}</div>
               <h3 className="font-display font-semibold text-gray-800 text-lg mb-1">Delete habit?</h3>
@@ -224,6 +226,7 @@ export default function Dashboard() {
                 </button>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
