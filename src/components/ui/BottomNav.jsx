@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
 
 const tabs = [
   {
@@ -50,12 +49,6 @@ export default function BottomNav() {
             <>
               <div className="relative">
                 {tab.icon(isActive)}
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-indicator"
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-bloom-400 rounded-full"
-                  />
-                )}
               </div>
               <span className="text-[10px] font-medium">{tab.label}</span>
             </>

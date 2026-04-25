@@ -24,16 +24,16 @@ export default function BottomSheet({ open, onClose, title, children, footer, ta
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[60]"
           />
 
-          {/* Sheet */}
+          {/* Sheet — z-[70] so it always sits above the z-50 bottom nav */}
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 32, stiffness: 400 }}
-            className={`fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2rem] shadow-bloom-lg
+            className={`fixed bottom-0 left-0 right-0 z-[70] bg-white rounded-t-[2rem] shadow-bloom-lg
               ${tall ? 'max-h-[92vh]' : 'max-h-[80vh]'} overflow-hidden flex flex-col`}
           >
             {/* Handle */}
