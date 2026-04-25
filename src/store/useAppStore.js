@@ -18,7 +18,18 @@ const useAppStore = create((set, get) => ({
       const profile = await getUserProfile(userId)
       set({ profile })
     } catch {
-      // Profile may not exist yet (trigger will create it)
+      // Profile doesn't exist yet (trigger may not have fired for existing auth users).
+      // Upsert it now so the habits foreign key constraint can be satisfied.
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        const profile = await upsertUserProfile({
+          id: userId,
+          email: user?.email || '',
+        })
+        set({ profile })
+      } catch (upsertErr) {
+        console.error('Failed to create user profile:', upsertErr)
+      }
     }
   },
 

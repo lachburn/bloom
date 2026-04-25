@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function BottomSheet({ open, onClose, title, children, tall = false }) {
+export default function BottomSheet({ open, onClose, title, children, footer, tall = false }) {
   const overlayRef = useRef(null)
 
   useEffect(() => {
@@ -56,10 +56,20 @@ export default function BottomSheet({ open, onClose, title, children, tall = fal
               </div>
             )}
 
-            {/* Content */}
-            <div className="overflow-y-auto flex-1 px-6 pb-6">
+            {/* Scrollable content */}
+            <div className="overflow-y-auto flex-1 px-6 pb-4">
               {children}
             </div>
+
+            {/* Footer — always visible above home indicator, never scrolls away */}
+            {footer && (
+              <div
+                className="flex-shrink-0 px-6 pt-3 bg-white border-t border-bloom-50"
+                style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 16px)' }}
+              >
+                {footer}
+              </div>
+            )}
           </motion.div>
         </>
       )}

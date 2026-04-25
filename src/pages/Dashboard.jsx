@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
 import useAppStore from '../store/useAppStore'
 import HabitTile from '../components/habits/HabitTile'
-import HabitForm from '../components/habits/HabitForm'
+import HabitForm, { HABIT_FORM_ID } from '../components/habits/HabitForm'
 import BottomSheet from '../components/ui/BottomSheet'
 import SkeletonCard from '../components/ui/SkeletonCard'
 
@@ -17,7 +17,9 @@ function getGreeting() {
 export default function Dashboard() {
   const { profile, habits, habitsLoading, loadHabits, loadTodayLogs, loadStreaks, logs, removeHabit, editHabit } = useAppStore()
   const [addOpen, setAddOpen] = useState(false)
+  const [addSaving, setAddSaving] = useState(false)
   const [editingHabit, setEditingHabit] = useState(null)
+  const [editSaving, setEditSaving] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
 
   useEffect(() => {
@@ -141,13 +143,47 @@ export default function Dashboard() {
       </motion.button>
 
       {/* Add habit sheet */}
-      <BottomSheet open={addOpen} onClose={() => setAddOpen(false)} title="New habit" tall>
-        <HabitForm onClose={() => setAddOpen(false)} />
+      <BottomSheet
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        title="New habit"
+        tall
+        footer={
+          <motion.button
+            type="submit"
+            form={HABIT_FORM_ID}
+            whileTap={{ scale: 0.97 }}
+            disabled={addSaving}
+            className="w-full btn-primary py-4 text-base disabled:opacity-60"
+          >
+            {addSaving ? 'Saving…' : '🌸 Add habit'}
+          </motion.button>
+        }
+      >
+        <HabitForm onClose={() => setAddOpen(false)} onSavingChange={setAddSaving} />
       </BottomSheet>
 
       {/* Edit habit sheet */}
-      <BottomSheet open={!!editingHabit} onClose={() => setEditingHabit(null)} title="Edit habit" tall>
-        {editingHabit && <HabitForm habit={editingHabit} onClose={() => setEditingHabit(null)} />}
+      <BottomSheet
+        open={!!editingHabit}
+        onClose={() => setEditingHabit(null)}
+        title="Edit habit"
+        tall
+        footer={
+          <motion.button
+            type="submit"
+            form={HABIT_FORM_ID}
+            whileTap={{ scale: 0.97 }}
+            disabled={editSaving}
+            className="w-full btn-primary py-4 text-base disabled:opacity-60"
+          >
+            {editSaving ? 'Saving…' : 'Save changes'}
+          </motion.button>
+        }
+      >
+        {editingHabit && (
+          <HabitForm habit={editingHabit} onClose={() => setEditingHabit(null)} onSavingChange={setEditSaving} />
+        )}
       </BottomSheet>
 
       {/* Delete confirmation */}
