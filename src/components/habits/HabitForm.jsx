@@ -203,8 +203,11 @@ export default function HabitForm({ habit, onClose }) {
         )}
       </AnimatePresence>
 
-      {/* Save button — sticky so it's always visible at the bottom */}
-      <div className="sticky bottom-0 bg-white pt-4 pb-2 mt-4">
+      {/* Save button — sticky so it's always visible at the bottom of the sheet */}
+      <div
+        className="sticky bottom-0 bg-white pt-4 mt-4"
+        style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 12px)' }}
+      >
         <motion.button
           type="button"
           whileTap={{ scale: 0.97 }}

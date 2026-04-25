@@ -35,7 +35,6 @@ export default function BottomSheet({ open, onClose, title, children, tall = fal
             transition={{ type: 'spring', damping: 32, stiffness: 400 }}
             className={`fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[2rem] shadow-bloom-lg
               ${tall ? 'max-h-[92vh]' : 'max-h-[80vh]'} overflow-hidden flex flex-col`}
-            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-2 flex-shrink-0">

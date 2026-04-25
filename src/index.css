@@ -10,10 +10,8 @@
 
   html {
     font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-    background-color: #FAFAFA;
-    /* Safe area insets for iPhone notch/home bar */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+    /* Pink so the status-bar safe-area gap matches the app header */
+    background-color: #FFE4EC;
   }
 
   body {

@@ -40,8 +40,12 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-bloom-50 via-white to-white">
-      {/* Header */}
-      <div className="px-5 pt-14 pb-4">
+
+      {/* Sticky header — owns the safe-area-top padding so it fills the status bar */}
+      <div
+        className="sticky top-0 z-20 px-5 pb-4 bg-gradient-to-b from-bloom-100 to-bloom-50/80 backdrop-blur-md"
+        style={{ paddingTop: 'max(env(safe-area-inset-top), 16px)' }}
+      >
         {/* Greeting */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -60,7 +64,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1, duration: 0.3 }}
-            className="mt-4 inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-bloom-sm"
+            className="mt-3 inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-bloom-sm"
           >
             <span className="text-bloom-400 text-sm">✨</span>
             <span className="text-sm font-medium text-gray-700">
@@ -74,7 +78,7 @@ export default function Dashboard() {
       </div>
 
       {/* Habits grid — pb large enough to clear nav bar + FAB */}
-      <div className="px-5 pb-40">
+      <div className="px-5 pt-4 pb-40">
         {habitsLoading ? (
           <div className="grid grid-cols-2 gap-4">
             {[1,2,3,4].map(i => <SkeletonCard key={i} />)}
